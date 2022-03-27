@@ -16,7 +16,7 @@ class Tasks(db.Model):
         self.status = status
 
     def __str__(self):
-        return f"Titulo:{self.title}\nFecha:{self.date}\nEstado:{self.status}"
+        return f"{self.title} -- {self.date} -- {self.status}"
 
     def serialize(self):
         return {

@@ -2,7 +2,10 @@
 
 {% block body %}
 
-<h1>Lista de tareas</h1>
+<main>
+    <h1>Tasks App</h1>
+</main>
+
 
 <ul>
     {% for tarea in tareas  %}
@@ -16,16 +19,21 @@
 
 <div>
     <a href="{{ url_for('get_tareas') }}">Ver mis tareas</a>
-</div>
-
-
-<div>
+    <br>
     <a href="{{ url_for('get_completadas') }}">Completas</a>
-
     <a href="{{ url_for('get_incompletas') }}">Incompletas</a>
 </div>
 
+<br><br><br><br>
 
+<div>
+   
+    <form action="{{ url_for('busqueda_profunda') }}" method="GET">
+        <span>Busca tarea por titulo:</span>
+        <input type="text" name="title" placeholder="buscar...">
+        <input type="submit" value="Buscar">
+    </form>
+</div>
 
 
 

@@ -16,10 +16,10 @@ def addValues():
     conn = sql.connect(DB_PATH)
     cursor = conn.cursor()
     data = [
-        ('Make the App', '2022-01-1', 'false'),
-        ('Buy coffee', '2000-06-11', 'false'),
-        ('Watch Anime', '2020-02-22', 'false'),
-        ('Play Games', '2022-04-2', 'false')
+        ('Make the App', '2022-01-1', 'Completada'),
+        ('Buy coffee', '2000-06-11', 'Completada'),
+        ('Watch Anime', '2020-02-22', 'Pendiente'),
+        ('Play Games', '2022-04-2', 'Pendiente')
     ]
     cursor.executemany("INSERT INTO tasks VALUES (NULL, ?, ?, ?)", data)
     conn.commit()

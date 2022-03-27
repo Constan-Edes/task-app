@@ -7,6 +7,12 @@
 <form action="{{ url_for('agregar') }}" method="POST">
     <span>Titulo tarea:</span>
     <input type="text" name="tarea" placeholder="title...">
+    <br>
+
+    <span>¿Ya ha sido completada?</span>
+    <input type="checkbox" name="completada" >
+    
+    
     
     <input type="submit" value="Añadir">    
 </form>

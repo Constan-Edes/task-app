@@ -13,38 +13,49 @@ app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///db\\tasks.db'
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db.init_app(app)
 
-tareas = [] # borrar esto
-
 
 # ======== Aqui empiezan las rutas ========
-
+# ======== Agrega una tarea ========
 @app.route('/')
 def home():
+    tareas = Tasks.query.all()
+    tareas.__str__()
+    print(tareas)
     return render_template('index.html', tareas=tareas)
 
 
 
+# Agrega una tarea 
 @app.route('/agregar', methods=['GET', 'POST'])
 def agregar():
+    try:
 
-    if request.method == 'GET':
-        return render_template('agregar.html')
-    # if request is not GET
-    else:
-        tarea = request.form.get('tarea')
-        fecha = datetime.today().strftime('%Y-%m-%d')
-        status = 'Pendiente'
+        if request.method == 'GET':
+            return render_template('agregar.html')
+        # if request is not GET
+        else:
+            tarea = request.form.get('tarea')
+            ya_completada = request.form.get('completada')
+            fecha = datetime.today().strftime('%Y-%m-%d')
 
-        tarea_nueva = Tasks(tarea, fecha, status)
-        db.session.add(tarea_nueva)
-        db.session.commit()
+            if ya_completada:
+                status = 'Completada'
+            else:
+                status = 'Pendiente'
+            
+            tarea_nueva = Tasks(tarea, fecha, status)
+            db.session.add(tarea_nueva)
+            db.session.commit()
 
-        return jsonify({'tarea': tarea, 'fecha': fecha, 'status': status}), 200
-      
-        #return redirect('/')
+            return redirect(url_for('home'))
+           
+    
+    except Exception as e:
+        exception('[SERVER]: Error -> {}'.format(e))
+        return jsonify({'msg': 'Ha ocurrido un error.'}), 500
    
 
-
+# Muestra todas las tareas 
 @app.route('/tareas')
 def get_tareas():
     try:
@@ -57,7 +68,7 @@ def get_tareas():
         return jsonify({'msg': 'Ha ocurrido un error.'}), 500
    
 
-
+# Muestra las tareas completadas
 @app.route('/completadas')
 def get_completadas():
     try:
@@ -74,7 +85,7 @@ def get_completadas():
         return jsonify({'msg': 'Ha ocurrido un error.'}), 500
    
 
-
+# Muestra las tareas pendientes
 @app.route('/incompletas')
 def get_incompletas():
     try:
@@ -91,7 +102,7 @@ def get_incompletas():
         return jsonify({'msg': 'Ha ocurrido un error.'}), 500
    
 
-        
+# busca las tareas por titulo
 @app.route('/busqueda', methods=['GET'])
 def busqueda_titulo():
     try:
@@ -109,6 +120,7 @@ def busqueda_titulo():
         return jsonify({'msg': 'Ha ocurrido un error'}), 500
    
 
+# busca las tareas por titulo, fecha y status
 @app.route('/busqueda/total' , methods=['GET'])
 def busqueda_profunda():
     try:
