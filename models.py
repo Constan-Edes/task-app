@@ -4,10 +4,10 @@ db = SQLAlchemy()
 
 class Tasks(db.Model):
 
-    rowid = db.Column(db.Integer, primary_key=True, nullable=False)
-    title = db.Column(db.String(100), nullable=False)
-    date = db.Column(db.String(20), nullable=False)
-    status = db.Column(db.String(15), nullable=False)
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
+    title = db.Column(db.String(80), nullable=False)
+    date = db.Column(db.String(16), nullable=False)
+    status = db.Column(db.Integer(), nullable=False)
 
     def __init__(self, title, date, status):
         super().__init__()
@@ -20,7 +20,7 @@ class Tasks(db.Model):
 
     def serialize(self):
         return {
-            'rowid': self.rowid,
+            'id': self.id,
             'title': self.title,
             'date': self.date,
             'status': self.status
