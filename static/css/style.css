@@ -25,8 +25,13 @@ body {
     color: #cfcfcf !important;
 }
 
+#card-end-separation{
+    margin-top: 1rem !important;
+}
+
 #footer {
     position: fixed;
+    
     background-color: #cfdef3;
     bottom: 0px;
     left: 0px;

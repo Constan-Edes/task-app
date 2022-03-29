@@ -3,6 +3,7 @@
 {% block title %} Task App {% endblock %}
 
 {% block body %}
+
 <nav class="navbar navbar-expand-lg p-1 navbar-dark bg-primary">
     <div class="container-fluid">
         <a class="navbar-brand" href="/">
@@ -18,13 +19,19 @@
                     <a class="nav-link ms-4 fs-6" href="/?filter=0">Completed</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link fs-6 ms-3" href="{{url_for('get_pendientes')}}">Pending</a>
+                    <a class="nav-link fs-6 ms-3" href="/?filter=1">Pending</a>
                 </li>
             </ul>
-            <form class="d-flex">
+                <!-- <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link fs-6 me-3" href="/?order=1">Change order</a>
+                    </li>
+                </ul> -->
+            <form class="d-flex" action="{{url_for('busqueda_titulo')}}" method="GET">
                 <div class="input-group">
-                    <input type="text" class="form-control me-sm-2 p-1 " placeholder="Search by title">
-                    <button class="btn p-1 btn-secondary" type="button" id="button-addon2">Search <i
+                    <input type="text" class="form-control me-sm-2 p-1 fs-6" name="title" placeholder="Search by title"
+                        required>
+                    <button class="btn p-1 btn-secondary fs-6" type="submit" id="button-addon2">Search <i
                             class="uil uil-search-alt"></i></button>
                 </div>
             </form>
@@ -55,10 +62,15 @@
                     </form>
                 </div>
                 <div class="card-body mt-2">
+                    {% if not tareas %}
+                    <div class="container px-5">
+                        <p class="text-center fs-5 text-danger">No tasks found, please try again.</p>
+                        <a class="text-center btn btn-outline-warning rounded-pill d-flex justify-content-center p-2"
+                            href="{{url_for('home')}}">Go Back</a>
+                    </div>
+                    {% endif %}
                     <ul class="list-group">
                         {% for t in tareas %}
-                        {% if filter %}
-                        {% if filter == 0 and t.status == 0 %}
                         <li class="list-group-item mb-1">
                             <span {% if t.status == 0 %} id="done" {% endif %}
                                 class="fs-6  fw-bolder">&#8594;&nbsp;{{t.title}}</span>
@@ -69,45 +81,24 @@
                                 <a href="/delete/{{t.id}}" class="btn btn-sm btn-danger">Delete</a>
                             </div>
                         </li>
-                        {% endif %}
-                        {% if filter == 1 and t.status == 1 %}
-                        <li class="list-group-item mb-1">
-                            <span {% if t.status == 0 %} id="done" {% endif %}
-                                class="fs-6 fw-bolder">&#8594;&nbsp;{{t.title}}</span>
-                            <div class="d-flex">
-                                <p class="text-start text-primary fst-normal flex-grow-1 m-0 mt-2"
-                                    {% if t.status == 0 %} id="done-date" {% endif %}>{{t.date}}</p>
-                                <a href="/done/{{t.id}}" class="btn btn-sm btn-success me-2">Done</a>
-                                <a href="/delete/{{t.id}}" class="btn btn-sm btn-danger">Delete</a>
-                            </div>
-                        </li>
-                        {% endif %}
-                        {% else %}
-                        <li class="list-group-item mb-1">
-                            <span {% if t.status == 0 %} id="done" {% endif %}
-                                class="fs-6  fw-bolder">&#8594;&nbsp;{{t.title}}</span>
-                            <div class="d-flex">
-                                <p class="text-start text-primary fst-normal flex-grow-1 m-0 mt-2"
-                                    {% if t.status == 0 %} id="done-date" {% endif %}>{{t.date}}</p>
-                                <a href="/done/{{t.id}}" class="btn btn-sm btn-success me-2">Done</a>
-                                <a href="/delete/{{t.id}}" class="btn btn-sm btn-danger">Delete</a>
-                            </div>
-                        </li>
-                        {% endif %}
                         {% endfor %}
                     </ul>
                 </div>
-                <div class="card-footer">
-                    <form action="{{url_for('busqueda_total')}}" class="form-check p-0">
+                <div class="card-footer mt-5" id="card-end-separation">
+                    <form action="{{ url_for('busqueda_total') }}" class="form-check p-0" method="GET">
                         <div class="input-group ">
-                            <input type="text" class="form-control m-0 p-2" placeholder="Title, date or status">
-                            <button class="btn btn-sm btn-primary m-0 p-1" type="button" id="button-addon2">Advanced
+                            <input type="text" class="form-control m-0 p-2" name="search_adv"
+                                placeholder="Title or date" required>
+                            <button class="btn btn-sm btn-primary m-0 p-1" type="submit" id="button-addon2">Advanced
                                 Search</button>
                         </div>
                     </form>
-                    <div id="search"></div>
                 </div>
             </div>
+            <div class="" id="search"></div>
+        </div>
+        <div class="col-1 mt-5 ">
+            <a class="btn btn-outline-primary rounded-pill mb-5 " href="#search"><i class="uil uil-arrow-from-top"></i></a>
         </div>
     </div>
 </main>
@@ -117,12 +108,9 @@
         <div class="p-0 text-center">
             <p class="m-0 p-0 text-center text-primary">Constantino Edes</p>
             <span class="text-primary">2022</span>
-
         </div>
-
     </div>
     <hr class="m-0">
 </footer>
-
 
 {% endblock %}

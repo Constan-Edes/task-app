@@ -1,9 +1,8 @@
 ## Flask Task App 
 
-Application to control your things to do, see which ones you have to complete and when they have been created. 
+Application to control your things to do, see which ones you have to complete, when they have been created, order the tasks as you want and search between them. :wink:
 
-### Preview
-
+### Preview 
 ![](./docs/screenshot.png)
 
 ### Installation
@@ -16,3 +15,6 @@ flask run
 ```
 
 now you can visit <a href="http://localhost:8000" target="_blank" rel="noreferrer">http://localhost:8000</a>
+
+
+
