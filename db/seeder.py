@@ -1,6 +1,5 @@
 import sqlite3 as sql
 from db_manager import create_db, create_table
-from datetime import datetime
 
 # for run the app at the first time, please execute this code
 

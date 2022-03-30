@@ -1,6 +1,5 @@
 import sqlite3 as sql
 
-
 def create_db(name):
     conn = sql.connect(name) # create SQLite database
     conn.commit() # commit changes
